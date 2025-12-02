@@ -32,7 +32,7 @@ aggregates it, and visualizes channel performance, engagement, and posting patte
 # -----------------------------
 
 # 👉 IMPORTANT: Put your own API key here or set it as env variable YOUTUBE_API_KEY
-API_KEY = 'AIzaSyCyLuZ0crF5wlJNA_A-NUdj8fgjR7gCHpY'
+API_KEY = 'YOUTUBE_API_KEY'
 
 # List of channel IDs you want to analyze
 CHANNEL_IDS = [
