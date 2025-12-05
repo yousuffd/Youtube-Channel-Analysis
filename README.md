@@ -3,6 +3,8 @@
 A comprehensive data analysis project exploring YouTube video performance using Python.  
 This notebook extracts insights such as view patterns, engagement metrics, and correlations between likes, comments, and views.
 
+### 🚀 Live Streamlit App  
+[Click here to view the dashboard]([https://your-app-name.streamlit.app/](https://youtube-channel-analysis-8je72hkeepoztnkoap36ns.streamlit.app/))
 ---
 
 ## 📂 Project Overview
