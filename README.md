@@ -368,5 +368,3 @@ This dashboard is provided as-is for analytics and educational purposes.
 **Last Updated**: May 2024
 **Dashboard Version**: 2.0.0
 **Minimum Streamlit**: 1.31.0
-
-Made with ❤️ for YouTube creators and analysts
