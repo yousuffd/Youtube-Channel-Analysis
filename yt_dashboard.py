@@ -100,109 +100,109 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# # Generate Sample Data
-# @st.cache_data
-# def generate_sample_data():
-#     np.random.seed(42)
-    
-#     # Generate Channel Data
-#     num_channels = 50
-#     channels = pd.DataFrame({
-#         'channel_id': [f'CH{i:04d}' for i in range(num_channels)],
-#         'channel_name': [f'Channel {i}' for i in range(num_channels)],
-#         'videos': np.random.randint(50, 500, num_channels),
-#         'total_views': np.random.randint(100000, 10000000, num_channels),
-#         'total_likes': np.random.randint(5000, 500000, num_channels),
-#         'total_comments': np.random.randint(500, 50000, num_channels),
-#         'subscribers': np.random.randint(1000, 1000000, num_channels),
-#         'channel_age_days': np.random.randint(365, 2000, num_channels)
-#     })
-    
-#     channels['avg_views'] = channels['total_views'] / channels['videos']
-#     channels['avg_likes'] = channels['total_likes'] / channels['videos']
-#     channels['avg_duration'] = np.random.uniform(5, 25, num_channels)
-#     channels['avg_engagement_rate'] = (channels['total_likes'] + channels['total_comments']) / channels['total_views'] * 100
-#     channels['avg_views_per_video'] = channels['avg_views']
-#     channels['likes_per_1000_views'] = (channels['total_likes'] / channels['total_views']) * 1000
-#     channels['views_per_subscriber'] = channels['total_views'] / channels['subscribers']
-#     channels['engagement_score'] = channels['avg_engagement_rate'] * np.log1p(channels['subscribers'])
-#     channels['videos_per_month'] = channels['videos'] / (channels['channel_age_days'] / 30)
-#     channels['channel_created'] = pd.date_range(end=datetime.now(), periods=num_channels, freq='30D')[::-1]
-    
-#     # Generate Video Data
-#     num_videos = 2000
-#     videos = pd.DataFrame({
-#         'video_id': [f'VID{i:05d}' for i in range(num_videos)],
-#         'title': [f'Video Title {i}' for i in range(num_videos)],
-#         'channel_id': np.random.choice(channels['channel_id'], num_videos),
-#         'publish_date': pd.date_range(end=datetime.now(), periods=num_videos, freq='12H')[::-1],
-#         'duration_minutes': np.random.uniform(3, 30, num_videos),
-#         'views': np.random.randint(100, 1000000, num_videos),
-#         'likes': np.random.randint(10, 50000, num_videos),
-#         'comments': np.random.randint(1, 5000, num_videos),
-#         'title_length': np.random.randint(30, 100, num_videos)
-#     })
-    
-#     # Merge channel info
-#     videos = videos.merge(channels[['channel_id', 'channel_name', 'subscribers']], on='channel_id')
-#     videos.rename(columns={'subscribers': 'ch_subscribers'}, inplace=True)
-    
-#     # Calculate derived metrics
-#     videos['publish_hour'] = videos['publish_date'].dt.hour
-#     videos['publish_day'] = videos['publish_date'].dt.day_name()
-#     videos['publish_month'] = videos['publish_date'].dt.month
-#     videos['publish_year'] = videos['publish_date'].dt.year
-#     videos['video_age_days'] = (datetime.now() - videos['publish_date']).dt.days
-#     videos['views_per_day'] = videos['views'] / (videos['video_age_days'] + 1)
-#     videos['engagement_rate'] = (videos['likes'] + videos['comments']) / videos['views'] * 100
-#     videos['like_rate'] = videos['likes'] / videos['views'] * 100
-#     videos['comment_rate'] = videos['comments'] / videos['views'] * 100
-#     videos['likes_per_comment'] = videos['likes'] / (videos['comments'] + 1)
-    
-#     # Posting period
-#     videos['posting_period'] = videos['publish_hour'].apply(
-#         lambda x: 'Morning' if 6 <= x < 12 else 'Afternoon' if 12 <= x < 18 else 'Evening' if 18 <= x < 22 else 'Night'
-#     )
-    
-#     # Performance category
-#     views_q75 = videos['views'].quantile(0.75)
-#     views_q25 = videos['views'].quantile(0.25)
-#     videos['performance_category'] = videos['views'].apply(
-#         lambda x: 'High' if x >= views_q75 else 'Low' if x <= views_q25 else 'Medium'
-#     )
-    
-#     videos['channel_created'] = videos['channel_id'].map(
-#         channels.set_index('channel_id')['channel_created']
-#     )
-    
-#     return channels, videos
-
-# # Load Data
-# channels_df, videos_df = generate_sample_data()
-
-
-# Load Data from CSV
+# Generate Sample Data
 @st.cache_data
-def load_data():
-    # Load the CSV files
-    channels = pd.read_csv('channel_stats.csv')
-    videos = pd.read_csv('video_stats.csv')
+def generate_sample_data():
+    np.random.seed(42)
     
-    # Ensure date columns are datetime with ISO8601 format
-    if 'channel_created' in channels.columns:
-        channels['channel_created'] = pd.to_datetime(channels['channel_created'], format='ISO8601')
+    # Generate Channel Data
+    num_channels = 50
+    channels = pd.DataFrame({
+        'channel_id': [f'CH{i:04d}' for i in range(num_channels)],
+        'channel_name': [f'Channel {i}' for i in range(num_channels)],
+        'videos': np.random.randint(50, 500, num_channels),
+        'total_views': np.random.randint(100000, 10000000, num_channels),
+        'total_likes': np.random.randint(5000, 500000, num_channels),
+        'total_comments': np.random.randint(500, 50000, num_channels),
+        'subscribers': np.random.randint(1000, 1000000, num_channels),
+        'channel_age_days': np.random.randint(365, 2000, num_channels)
+    })
     
-    if 'publish_date' in videos.columns:
-        videos['publish_date'] = pd.to_datetime(videos['publish_date'], format='ISO8601')
+    channels['avg_views'] = channels['total_views'] / channels['videos']
+    channels['avg_likes'] = channels['total_likes'] / channels['videos']
+    channels['avg_duration'] = np.random.uniform(5, 25, num_channels)
+    channels['avg_engagement_rate'] = (channels['total_likes'] + channels['total_comments']) / channels['total_views'] * 100
+    channels['avg_views_per_video'] = channels['avg_views']
+    channels['likes_per_1000_views'] = (channels['total_likes'] / channels['total_views']) * 1000
+    channels['views_per_subscriber'] = channels['total_views'] / channels['subscribers']
+    channels['engagement_score'] = channels['avg_engagement_rate'] * np.log1p(channels['subscribers'])
+    channels['videos_per_month'] = channels['videos'] / (channels['channel_age_days'] / 30)
+    channels['channel_created'] = pd.date_range(end=datetime.now(), periods=num_channels, freq='30D')[::-1]
     
-    # Also handle channel_created in videos if it exists
-    if 'channel_created' in videos.columns:
-        videos['channel_created'] = pd.to_datetime(videos['channel_created'], format='ISO8601')
+    # Generate Video Data
+    num_videos = 2000
+    videos = pd.DataFrame({
+        'video_id': [f'VID{i:05d}' for i in range(num_videos)],
+        'title': [f'Video Title {i}' for i in range(num_videos)],
+        'channel_id': np.random.choice(channels['channel_id'], num_videos),
+        'publish_date': pd.date_range(end=datetime.now(), periods=num_videos, freq='12H')[::-1],
+        'duration_minutes': np.random.uniform(3, 30, num_videos),
+        'views': np.random.randint(100, 1000000, num_videos),
+        'likes': np.random.randint(10, 50000, num_videos),
+        'comments': np.random.randint(1, 5000, num_videos),
+        'title_length': np.random.randint(30, 100, num_videos)
+    })
+    
+    # Merge channel info
+    videos = videos.merge(channels[['channel_id', 'channel_name', 'subscribers']], on='channel_id')
+    videos.rename(columns={'subscribers': 'ch_subscribers'}, inplace=True)
+    
+    # Calculate derived metrics
+    videos['publish_hour'] = videos['publish_date'].dt.hour
+    videos['publish_day'] = videos['publish_date'].dt.day_name()
+    videos['publish_month'] = videos['publish_date'].dt.month
+    videos['publish_year'] = videos['publish_date'].dt.year
+    videos['video_age_days'] = (datetime.now() - videos['publish_date']).dt.days
+    videos['views_per_day'] = videos['views'] / (videos['video_age_days'] + 1)
+    videos['engagement_rate'] = (videos['likes'] + videos['comments']) / videos['views'] * 100
+    videos['like_rate'] = videos['likes'] / videos['views'] * 100
+    videos['comment_rate'] = videos['comments'] / videos['views'] * 100
+    videos['likes_per_comment'] = videos['likes'] / (videos['comments'] + 1)
+    
+    # Posting period
+    videos['posting_period'] = videos['publish_hour'].apply(
+        lambda x: 'Morning' if 6 <= x < 12 else 'Afternoon' if 12 <= x < 18 else 'Evening' if 18 <= x < 22 else 'Night'
+    )
+    
+    # Performance category
+    views_q75 = videos['views'].quantile(0.75)
+    views_q25 = videos['views'].quantile(0.25)
+    videos['performance_category'] = videos['views'].apply(
+        lambda x: 'High' if x >= views_q75 else 'Low' if x <= views_q25 else 'Medium'
+    )
+    
+    videos['channel_created'] = videos['channel_id'].map(
+        channels.set_index('channel_id')['channel_created']
+    )
     
     return channels, videos
 
 # Load Data
-channels_df, videos_df = load_data()
+channels_df, videos_df = generate_sample_data()
+
+
+# # Load Data from CSV
+# @st.cache_data
+# def load_data():
+#     # Load the CSV files
+#     channels = pd.read_csv('channel_stats.csv')
+#     videos = pd.read_csv('video_stats.csv')
+    
+#     # Ensure date columns are datetime with ISO8601 format
+#     if 'channel_created' in channels.columns:
+#         channels['channel_created'] = pd.to_datetime(channels['channel_created'], format='ISO8601')
+    
+#     if 'publish_date' in videos.columns:
+#         videos['publish_date'] = pd.to_datetime(videos['publish_date'], format='ISO8601')
+    
+#     # Also handle channel_created in videos if it exists
+#     if 'channel_created' in videos.columns:
+#         videos['channel_created'] = pd.to_datetime(videos['channel_created'], format='ISO8601')
+    
+#     return channels, videos
+
+# # Load Data
+# channels_df, videos_df = load_data()
 
 
 # Sidebar
